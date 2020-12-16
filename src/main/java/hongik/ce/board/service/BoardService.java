@@ -29,13 +29,7 @@ public class BoardService {
         List<BoardDto> boardDtoList = new ArrayList<>();
 
         for ( BoardEntity boardEntity : boardEntities) {
-            BoardDto boardDTO = BoardDto.builder()
-                    .id(boardEntity.getId())
-                    .title(boardEntity.getTitle())
-                    .content(boardEntity.getContent())
-                    .writer(boardEntity.getWriter())
-                    .createdDate(boardEntity.getCreatedDate())
-                    .build();
+            BoardDto boardDTO = convertEntityToDto(boardEntity);
 
             boardDtoList.add(boardDTO);
         }
@@ -43,36 +37,42 @@ public class BoardService {
         return boardDtoList;
     }
 
-    /*
-    // 여기서 부터 작성, 주석을 해제하고 사용하세요
+
+//    // 여기서 부터 작성, 주석을 해제하고 사용하세요
     // 게시글 상세 내용 조회 처리
     @Transactional
     public BoardDto getPost(Long id) {
-
+        BoardEntity boardEntity = boardRepository.getOne(id);
         // 게시글의 entity 내용을 조회할 수 있도록 작성
+        BoardDto boardDTO = convertEntityToDto(boardEntity);
 
         return boardDTO;
     }
-
+//
     // 게시글 삭제
     @Transactional
     public void deletePost(Long id) {
-
+        boardRepository.deleteById(id);
         // 게시글을 삭제할 수 있도록 작성
-
     }
-
+//
     // 게시글 검색
     @Transactional
     public List<BoardDto> searchPosts(String keyword) {
         List<BoardEntity> boardEntities = boardRepository.findByTitleContaining(keyword);
         List<BoardDto> boardDtoList = new ArrayList<>();
 
+        for ( BoardEntity boardEntity : boardEntities) {
+            BoardDto boardDTO = convertEntityToDto(boardEntity);
+
+            boardDtoList.add(boardDTO);
+        }
         // 게시글을 검색할 수 있도록 작성
+
 
         return boardDtoList;
     }
-
+//
     //  Entity를 Dto로 변환하는 작업이 중복해서 발생했었는데, 이를 함수로 처리하도록 개선
     private BoardDto convertEntityToDto(BoardEntity boardEntity) {
         return BoardDto.builder()
@@ -83,5 +83,5 @@ public class BoardService {
                 .createdDate(boardEntity.getCreatedDate())
                 .build();
     }
-    */
+
 }
